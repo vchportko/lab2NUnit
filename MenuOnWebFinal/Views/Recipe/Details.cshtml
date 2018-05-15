@@ -1,0 +1,135 @@
+﻿@using MenuOnWebFinal.Models
+@model MenuOnWebFinal.Models.ViewRecipe
+@{
+    ViewBag.Title = @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details1);
+}
+
+<div class="-w- -no-padding single-recipe">
+    <div class="single-recipe--row -top-row -with-top-border-radius">
+        @{
+            string bgurl = "/Content/images/thumbnails/";
+            bgurl += @Model.ImageUrl == null || Model.ImageUrl == "" ? "recipe-default-img.png" : @Model.ImageUrl;
+        }
+        <div class="single-recipe--big-col single-recipe--general" style="background-image: url('@bgurl')">
+            <div class="single-recipe--title">
+                <span>
+                    @Model.Name
+                </span>
+            </div>
+        </div>
+        <div class="single-recipe--small-col single-recipe--indredients">
+            <div class="single-recipe--indredients-title">
+                @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details2)
+            </div>
+            <div class="single-recipe--indredients-list js-scrollbar">
+                @foreach (var tag in Model.Tags)
+                {
+                    <div class="single-recipe--indredients-list-item js-checkbox -checked">
+                        <div class="-checkbox"></div>
+                        <div class="-text">
+                            @tag
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="single-recipe--row">
+        <div class="single-recipe--big-col single-recipe--directions">
+            <div class="single-recipe--directions-title">
+                <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details3)</span>
+                <span class="number-of-comments">
+                    @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details4)
+                </span>
+            </div>
+            <div class="single-recipe--directions-text">
+                @Model.Text
+            </div>
+            <div class="comments">
+                @foreach (CommentModel comment in ViewBag.Comments)
+                {
+                    <div class="comments--item">
+                        @if (ViewBag.IsModerator)
+                        {
+                            <a href="/Recipe/DeleteComment/@comment.Id" class="comments--item-delete"></a>
+                        }
+                        <div class="comments--item-img">
+                            @{
+                                string imgurl = "/Content/images/thumbnails/";
+                                imgurl += @comment.AuthorAvatar == null || @comment.AuthorAvatar == "" ? "no-ava.png" : @comment.AuthorAvatar;
+                            }
+                            <div class="comments--item-img-ava" style="background-image: url('@imgurl')">
+                            </div>
+                        </div>
+                        <div class="comments--item-content">
+                            <div class="comments--item-content-header">
+                                <span class="comments--item-content-title">@comment.AuthorLogin</span>
+                                <span class="comments--item-content-date">@comment.CreateDate.ToShortDateString()</span>
+                            </div>
+                            <div class="comments--item-content-text">
+                                @comment.Text
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="comments--item-add">
+                    <div class="comments--item-add-label">
+                        @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details5)
+                    </div>
+                    <form method="post" action="/Recipe/AddComment">
+                        <input type="hidden" value="@Model.Id" name="RecipeId" />
+                        <input type="hidden" value="@DateTime.Now" name="CreateDate" />
+                        <input type="hidden" value="@ViewBag.UserId" name="AuthorLogin" />
+                        <textarea type="text" name="Text" placeholder="Введіть коментар"></textarea>
+                        <input class="button -primary" type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="single-recipe--small-col single-recipe--recipe-info">
+            <div class="single-recipe--recipe-info-floating js-floating-block">
+                <div class="single-recipe--recipe-info-title">
+                    @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details6)
+                </div>
+                <div class="single-recipe--recipe-info-content">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <form method="post" action="/Recipe/Like" class="single-recipe--recipe-info-form">
+                            <input type="hidden" value="@Model.Id" name="RecipeId" />
+                            <input type="hidden" value="1" name="UserId" />
+                            @if (ViewBag.AlreadyLiked == false)
+                            {
+                                <input class="button -dark-black" type="submit" value="@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Like)" />
+                            }
+                            else
+                            {
+                                <input class="button -dark-black" type="submit" value="@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Dislike)" />
+                            }
+                        </form>
+                        <a href="/Recipe/AddToFavourite?recipeId=@Model.Id" class="button -dark-black">
+                           @if (ViewBag.AlreadyInFavorite) {
+                                <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details7)</span>
+                           }
+                           else
+                           {
+                                <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details8)</span>
+                           }
+                        </a>
+
+
+
+                        if (ViewBag.Editable)
+                        {
+                            <a href="/Recipe/Edit/@Model.Id" class="button -dark-black">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details9)</a>
+                            <a href="/Recipe/Delete/@Model.Id" class="button -dark-black">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details10)</a>
+                        }
+                    }
+                    else
+                    {
+                        <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Details11)</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

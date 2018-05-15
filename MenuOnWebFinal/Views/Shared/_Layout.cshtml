@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="stylesheet" href="~/Content/general.css">
+    <link rel="stylesheet" href="~/Content/perfect-scrollbar.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+</head>
+<body>
+    <div class="-f- header">
+        <div class="-w- header--container">
+            <div class="logo">
+                <a href="/">
+                    <img src="~/Content/images/logo.png" alt="">
+                </a>
+                <span class="button -blue -darker-hover -without-right-border">
+                    @Html.ActionLink("En", "Change", "Language", new { LanguageAbbreviation = "en" }, null)
+                </span>
+                <span class="button -dark-blue -darker-hover -without-left-border">
+                    @Html.ActionLink("Uk", "Change", "Language", new { LanguageAbbreviation = "uk" }, null)
+                </span>
+            </div>
+            
+            @if (Request.IsAuthenticated)
+            {
+                <div class="header--buttons">
+                    @if ("/Home/Index" == Request.RawUrl || Request.RawUrl == "/")
+                    {
+                        <div class="header--buttons-search js-search">
+                            <div class="header--buttons-search-tip">
+                                @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout1)
+                            </div>
+                            <input type="text" name="search" id="js-search-input">
+                            <button class="button -dark-blue -darker-hover -without-left-border js-search-button">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout2)</button>
+                        </div>
+                    }
+                    @if (User.IsInRole("Administrator") == false)
+                    {
+                        <a href="/Recipe/Create" class="button -blue -without-right-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout3)</a>
+                        <a href="/Recipe/MyRecipes" class="button -blue -without-right-border -without-left-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout4)</a>
+                        <a href="/Recipe/GetFavourites" class="button -blue -without-right-border -without-left-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout5)</a>
+                    }
+                    else
+                    {
+                        <a href="/Admin/AssignRole" class="button -blue -without-right-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout13)</a>
+                        <a href="/Admin/DeleteUser" class="button -blue -without-left-border -without-right-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout14)</a>
+                    }
+                    <a href="/User/Edit" class="button -blue -without-right-border -without-left-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout6)</a>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                    @Html.AntiForgeryToken()
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="button -dark-blue -without-left-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout7)</a>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="header--buttons">
+                    @if ("/Home/Index" == Request.RawUrl || Request.RawUrl == "/")
+                    {
+                        <div class="header--buttons-search js-search">
+                            <div class="header--buttons-search-tip">
+                                @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout8)
+                            </div>
+                            <input type="text" name="search" id="js-search-input">
+                            <button class="button -dark-blue -darker-hover -without-left-border js-search-button">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout9)</button>
+                        </div>
+                    }
+                    <a href="/Account/Login" class="button -blue -without-right-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout10)</a>
+                    <a href="/Account/Register" class="button -dark-blue -without-left-border">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout11)</a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="-f- header--helper">
+    </div>
+    <div class="-f-">
+        @RenderBody()
+    </div>
+    <div class="-f- footer">
+        Copyright (c) @DateTime.Now.Year All Rights Reserved.
+    </div>
+    <div class="modal" id="log_in">
+        <div class="modal--overflow js-close-modal"></div>
+        <div class="modal--content">
+            <div class="modal--header">
+                <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout15)</span>
+                <div class="modal--close js-close-modal"></div>
+            </div>
+            <div class="modal--container">
+                <form class="modal--form" action="/Account/Login" method="post">
+                    @Html.AntiForgeryToken()
+                    <label for="login">E@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout16)</label>
+                    <input type="text" name="Email" id="login">
+                    <label for="password">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout17)</label>
+                    <input type="password" name="Password" id="password">
+                    <button type="submit" name="" class="button -dark-blue -darker-hover">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout18)</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="sign_up">
+        <div class="modal--overflow js-close-modal"></div>
+        <div class="modal--content">
+            <div class="modal--header">
+                <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout19)</span>
+                <div class="modal--close js-close-modal"></div>
+            </div>
+            <div class="modal--container">
+                <form class="modal--form" action="#" method="post">
+                    @Html.AntiForgeryToken()
+                    <label for="login">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout20)</label>
+                    <input type="text" name="Login" id="login">
+                    <label for="login">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout21)</label>
+                    <input type="text" name="Email" id="login">
+                    <label for="password">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout22)</label>
+                    <input type="password" name="Password" id="password">
+                    <label for="conf_password">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout23)</label>
+                    <input type="password" name="ConfirmPassword" id="conf_password">
+                    <button type="submit" name="" class="button -dark-blue -darker-hover">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout24)</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="profile">
+        <div class="modal--overflow js-close-modal"></div>
+        <div class="modal--content">
+            <div class="modal--header">
+                <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout25)</span>
+                <div class="modal--close js-close-modal"></div>
+            </div>
+            <div class="modal--container">
+                <form class="modal--form" action="#" method="post">
+                    <label for="login">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout26)</label>
+                    <input type="text" name="login" id="login" value="User Name">
+                    <label for="avatar">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout27) <span class="tip">(url)</span>:</label>
+                    <input type="text" name="avatar" id="avatar">
+                    <button type="submit" name="" class="button -dark-blue -darker-hover">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout28)</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="new">
+        <div class="modal--overflow js-close-modal"></div>
+        <div class="modal--content -wide">
+            <div class="modal--header">
+                <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout29)</span>
+                <div class="modal--close js-close-modal"></div>
+            </div>
+            <div class="modal--container">
+                <form class="modal--form" action="/Recipe/Create/" method="post">
+                    <label for="recipe_title">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout30)</label>
+                    <input type="text" name="Name" id="recipe_title">
+                    <label for="recipe_bg">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout31) <span class="tip">(url)</span>:</label>
+                    <input type="text" name="recipe_bg" id="recipe_bg">
+                    <label for="ingredients">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout32) <span class="tip">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout33)</span>:</label>
+                    <textarea name="Tags" id="ingredients"></textarea>
+                    <label for="directions">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout34)</label>
+                    <textarea name="Text" id="directions"></textarea>
+                    <button type="submit" name="" class="button -dark-blue -darker-hover">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts._Layout35)</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/main.js" charset="utf-8"></script>
+    <script src="~/Scripts/perfect-scrollbar.jquery.js" charset="utf-8"></script>
+</body>
+</html>

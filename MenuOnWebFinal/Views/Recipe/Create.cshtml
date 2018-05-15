@@ -1,0 +1,30 @@
+﻿@model  MenuOnWebFinal.Models.RecipeAddModel
+
+<div class="form-page">
+    <div class="form-page--content">
+        <div class="form-page--header">
+            <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Create1)</span>
+        </div>
+        <div class="form-page--container">
+            @using (Html.BeginForm("Create", "Recipe", FormMethod.Post, new { @class = "form-page--form", role = "form", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <label for="name">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Create2)</label>
+                <input type="text" name="Name" id="name">
+                <label for="text">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Create3)</label>
+                <textarea type="text" name="Text" id="text"></textarea>
+                <label for="text">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Create4) <span class="tip">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Create5)</span>:</label>
+                <textarea type="text" name="IngridietsString" id="text"></textarea>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ImageFile)
+                    <label class="col-md-6 input-group">
+                        <input type="file" id="ImageFile" name="ImageFile" class="form-control">
+                        <span class="input-group-addon">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Create6)</span>
+                    </label>
+                </div>
+                <button type="submit" class="button -dark-blue -darker-hover">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Create7)</button>
+            }
+        </div>
+    </div>
+</div>

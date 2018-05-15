@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.MyRecipes1);
+}
+
+@using MenuOnWebFinal.Models;
+
+@{
+    <div class="-w- -no-padding items">
+        @foreach (ViewRecipe recipe in @ViewBag.Recipes)
+        {
+            <div class="items--item">
+                @{
+                    string imgurl = "/Content/images/thumbnails/";
+                    imgurl += @recipe.ImageUrl == null ? "recipe-default-img.png" : @recipe.ImageUrl;
+                }
+                <div class="items--item-img" style="background-image: url('@imgurl')">
+                    <div class="items--item-img-overflow">
+                        <div class="items--item-menu">
+                            <div class="items--item-menu-item icon icon-like">
+                                <div class="-helper">@recipe.Likes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="items--item-description">
+                    <div class="items--item-description-title">
+                        @recipe.Name
+                    </div>
+                    <div class="items--item-description-text">
+                        @if (recipe.Text.Length > 150)
+                        {
+                            @recipe.Text.Substring(0, 150)
+                        }
+                        else
+                        {
+                            @recipe.Text
+                        }
+                        <span>..</span>
+                    </div>
+                    <a href="/Recipe/Details/@recipe.Id" class="items--item-description-button button -secondary">
+                        @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.MyRecipes2)
+                    </a>
+                </div>
+            </div>
+                    }
+    </div>
+}

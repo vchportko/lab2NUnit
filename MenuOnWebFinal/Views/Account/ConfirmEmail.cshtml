@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.ConfirmEmail1);
+}
+
+<h2>@ViewBag.Title.</h2>
+<div>
+    <p>
+        Thank you for confirming your email. Please @Html.ActionLink(MenuOnWebFinal.Resources.EnglishTexts.ConfirmEmail2, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    </p>
+</div>

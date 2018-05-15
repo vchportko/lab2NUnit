@@ -1,0 +1,34 @@
+﻿@using MenuOnWebFinal.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Login1);
+}
+
+<div class="form-page">
+    <div class="form-page--content">
+        <div class="form-page--header">
+            <span>@ViewBag.Title</span>
+        </div>
+        <div class="form-page--container">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-page--form", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <label for="mail">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Login2)</label>
+                <input type="text" name="Email" id="mail">
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                <label for="password">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Login3)</label>
+                <input type="password" name="Password" id="password">
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <div class="checkbox">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe)
+                </div>
+                <button type="submit" class="button -dark-blue -darker-hover">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.Login4)</button>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

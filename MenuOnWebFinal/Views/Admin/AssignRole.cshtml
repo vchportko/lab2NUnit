@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = @Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.AssignRole1);
+}
+
+<div class="form-page">
+    <div class="form-page--content">
+        <div class="form-page--header">
+            <span>@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.AssignRole2)</span>
+        </div>
+        <div class="form-page--container">
+            @using (Html.BeginForm("AssignRole", "Admin", FormMethod.Post, new { @class = "form-page--form"}))
+            {
+                <label class="control-label">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.AssignRole3)</label>
+                <input type="text" name="txtUserName" class="form-control" />
+                <label class="control-label">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.AssignRole4)</label>
+                @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select...")
+                <button class="button -dark-blue -darker-hover" type="submit">@Html.Raw(MenuOnWebFinal.Resources.EnglishTexts.AssignRole5)</button>
+            }
+        </div>
+    </div>
+</div>
